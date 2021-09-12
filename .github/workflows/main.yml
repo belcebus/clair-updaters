@@ -13,8 +13,8 @@ jobs:
       - name: Export updaters for default sets
         run: |
           mkdir $RUNNER_TEMP/updaters
-          sudo chown -R nobody $RUNNER_TEMP/updaters
-          docker container run \
+          sudo chown nobody $RUNNER_TEMP/updaters
+          sudo docker container run \
           --entrypoint clairctl \
           --name clair \
           --network host \
