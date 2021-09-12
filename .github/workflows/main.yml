@@ -21,15 +21,15 @@ jobs:
             --entrypoint clairctl \
             --rm \
             --volume $GITHUB_WORKSPACE/config/config_v4.2.2.yaml:/config/config.yaml:ro \
-            --volume $GITHUB_WORKSPACE/updaters/:/reports/:rw \
+            --volume $GITHUB_WORKSPACE/updaters/:/updaters/:rw \
           quay.io/projectquay/clair:4.2.2 \
-          export-updaters /reports/export-all-updaters
+          export-updaters /updaters/exported-updaters
 
       - name: Compress updaters file
-        run: tar -czvf export-all-updaters.tgz updaters/export-all-updaters
+        run: gzip updaters/exported-updaters
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
           name: updaters
-          path: export-all-updaters.tgz
+          path: exported-updaters.gz
