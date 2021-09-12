@@ -15,9 +15,17 @@ jobs:
           ls -la $GITHUB_WORKSPACE/config/
           ls -la $RUNNER_TEMP
           
-          docker container run \
-          -v $RUNNER_TEMP:/report:rw \
-          alpine:latest touch /report/file-a
+          docker container run \ 
+          --user runner \
+          --entrypoint clairctl \
+          --name clair \
+          --network host \
+          --rm \
+          --volume $GITHUB_WORKSPACE/config/config_v4.2.2.yaml:/config/config.yaml:ro \
+          --volume $RUNNER_TEMP:/reports:rw \
+          --workdir /run \
+          quay.io/projectquay/clair:4.2.2 \
+          export-updaters /reports/export-updaters
           
           ls -la $RUNNER_TEMP
           
