@@ -23,12 +23,13 @@ jobs:
           --volume $RUNNER_TEMP/updaters/:/reports/:rw \
           --workdir /run \
           quay.io/projectquay/clair:4.2.2 \
-          export-updaters /reports/export-updaters
+          export-updaters /reports/export-all-updaters
           ls -la $RUNNER_TEMP
+          ls -la $RUNNER_TEMP/updaters
       - name: Show updaters file
         run: head $RUNNER_TEMP/updaters/export-all-updaters
       - name: Compress updaters file
-        run: tar cfz $RUNNER_TEMP/updaters/export-all-updaters.tar.gz export-updaters
+        run: tar cfz $RUNNER_TEMP/updaters/export-all-updaters.tar.gz export-all-updaters
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
