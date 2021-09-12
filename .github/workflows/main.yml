@@ -26,16 +26,16 @@ jobs:
 
       - name: Show updaters file
         run: head updaters/export-all-updaters
-#      - name: Compress updaters file
-#        run: |
-#          ls -la $GITHUB_WORKSPACE
-#          ls -la updaters
-#          sudo chown -R runner updaters
-#          tar cfz updaters/export-all-updaters.tar.gz updaters/export-all-updaters
-#          ls -la $GITHUB_WORKSPACE
-#          ls -la updaters
+      - name: Compress updaters file
+        run: |
+          ls -la $GITHUB_WORKSPACE
+          ls -la updaters
+          sudo chown -R runner updaters
+          tar -czvf updaters/export-all-updaters.tgz updaters/export-all-updaters
+          ls -la $GITHUB_WORKSPACE
+          ls -la updaters
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
           name: updaters
-          path: updaters/export-all-updaters
+          path: updaters/export-all-updaters.tgz
