@@ -29,7 +29,9 @@ jobs:
       - name: Show updaters file
         run: head $RUNNER_TEMP/updaters/export-all-updaters
       - name: Compress updaters file
-        run: tar cfz $RUNNER_TEMP/updaters/export-all-updaters.tar.gz export-all-updaters
+        run: |
+          sudo chown -R runner $RUNNER_TEMP/updaters
+          tar cfz $RUNNER_TEMP/updaters/export-all-updaters.tar.gz export-all-updaters
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
