@@ -28,10 +28,10 @@ jobs:
         run: head updaters/export-all-updaters
       - name: Compress updaters file
         run: |
-          tar -czvf updaters/export-all-updaters.tgz updaters/export-all-updaters
+          tar -czvf export-all-updaters.tgz updaters/export-all-updaters
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
           name: updaters
-          path: updaters/export-all-updaters.tgz
+          path: export-all-updaters.tgz
