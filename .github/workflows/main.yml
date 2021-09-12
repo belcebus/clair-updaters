@@ -26,7 +26,7 @@ jobs:
           export-updaters /updaters/exported-updaters
 
       - name: Compress updaters file
-        run: gzip updaters/exported-updaters
+        run: gzip -c updaters/exported-updaters > exported-updaters.gz
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
