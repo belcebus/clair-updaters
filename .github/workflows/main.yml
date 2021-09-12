@@ -11,20 +11,21 @@ jobs:
         uses: actions/checkout@v2.3.4
       - name: Export updaters for default sets
         run: |
+          env
           docker container run \
           --entrypoint clairctl \
           --name clair \
           --rm \
-          --volume ${{env.RUNNER_TEMP}}/config/config_v4.2.2.yaml:/config/config.yaml:ro \
-          --volume ${{env.RUNNER_TEMP}}:/reports:rw \
+          --volume $RUNNER_TEMP/config/config_v4.2.2.yaml:/config/config.yaml:ro \
+          --volume $RUNNER_TEMP:/reports:rw \
           quay.io/projectquay/clair:4.2.2 \
           export-updaters /reports/export-all-updaters
       - name: Show updaters file
-        run: head ${{env.RUNNER_TEMP}}/export-all-updaters
+        run: head $RUNNER_TEMP/export-all-updaters
       - name: Compress updaters file
-        run: tar cfz ${{env.RUNNER_TEMP}}/export-all-updaters.tar.gz export-updaters
+        run: tar cfz $RUNNER_TEMP/export-all-updaters.tar.gz export-updaters
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
           name: updaters
-          path: ${{env.RUNNER_TEMP}}/export-all-updaters.tar.gz
+          path: $RUNNER_TEMP/export-all-updaters.tar.gz
