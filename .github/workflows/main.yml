@@ -15,14 +15,12 @@ jobs:
           ls -la $GITHUB_WORKSPACE/config/
           ls -la $RUNNER_TEMP
           
-          sudo docker container run \
-          --entrypoint clairctl \
-          --name clair \
-          --rm \
-          --volume $GITHUB_WORKSPACE/config/config_v4.2.2.yaml:/config/config.yaml:ro \
-          --volume $RUNNER_TEMP:/reports:rw \
-          quay.io/projectquay/clair:4.2.2 \
-          export-updaters /reports/export-all-updaters
+          docker container run \
+          -v $RUNNER_TEMP:/report:rw \
+          alpine:latest touch /report/file-a
+          
+          ls -la $RUNNER_TEMP
+          
       - name: Show updaters file
         run: head $RUNNER_TEMP/export-all-updaters
       - name: Compress updaters file
