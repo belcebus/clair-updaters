@@ -15,13 +15,12 @@ jobs:
           mkdir $RUNNER_TEMP/updaters
           sudo chown nobody $RUNNER_TEMP/updaters
           sudo docker container run \
-          --entrypoint clairctl \
-          --name clair \
-          --network host \
-          --rm \
-          --volume $GITHUB_WORKSPACE/config/config_v4.2.2.yaml:/config/config.yaml:ro \
-          --volume $RUNNER_TEMP/updaters/:/reports/:rw \
-          --workdir /run \
+            --entrypoint clairctl \
+            --name clair \
+            --network host \
+            --rm \
+            --volume $GITHUB_WORKSPACE/config/config_v4.2.2.yaml:/config/config.yaml:ro \
+            --volume $RUNNER_TEMP/updaters/:/reports/:rw \
           quay.io/projectquay/clair:4.2.2 \
           export-updaters /reports/export-all-updaters
           ls -la $RUNNER_TEMP
