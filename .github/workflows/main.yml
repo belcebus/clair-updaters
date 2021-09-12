@@ -14,7 +14,7 @@ jobs:
         run: |
           mkdir updaters
           sudo chown nobody updaters
-          sudo docker container run \
+          docker container run \
             --entrypoint clairctl \
             --name clair \
             --network host \
@@ -27,8 +27,7 @@ jobs:
       - name: Show updaters file
         run: head updaters/export-all-updaters
       - name: Compress updaters file
-        run: |
-          tar -czvf export-all-updaters.tgz updaters/export-all-updaters
+        run: tar -czvf export-all-updaters.tgz updaters/export-all-updaters
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
