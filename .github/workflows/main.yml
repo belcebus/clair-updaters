@@ -1,7 +1,8 @@
 name: updaters generator
 
 on:
-  workflow_dispatch:
+  push:
+    branch: [main]
 
 jobs:
   all:
@@ -14,9 +15,7 @@ jobs:
           env
           ls -la $GITHUB_WORKSPACE/config/
           ls -la $RUNNER_TEMP
-          
-          docker container run \ 
-          --user runner \
+          docker container run \
           --entrypoint clairctl \
           --name clair \
           --network host \
@@ -26,9 +25,7 @@ jobs:
           --workdir /run \
           quay.io/projectquay/clair:4.2.2 \
           export-updaters /reports/export-updaters
-          
           ls -la $RUNNER_TEMP
-          
       - name: Show updaters file
         run: head $RUNNER_TEMP/export-all-updaters
       - name: Compress updaters file
