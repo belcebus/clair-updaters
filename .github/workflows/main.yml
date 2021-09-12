@@ -15,13 +15,16 @@ jobs:
           env
           ls -la $GITHUB_WORKSPACE/config/
           ls -la $RUNNER_TEMP
+          mkdir $RUNNER_TEMP/updaters
+          sudo chown -R nobody $RUNNER_TEMP/updaters
+          ls -la $RUNNER_TEMP
           docker container run \
           --entrypoint clairctl \
           --name clair \
           --network host \
           --rm \
           --volume $GITHUB_WORKSPACE/config/config_v4.2.2.yaml:/config/config.yaml:ro \
-          --volume $RUNNER_TEMP:/reports:rw \
+          --volume $RUNNER_TEMP/updaters/:/reports/:rw \
           --workdir /run \
           quay.io/projectquay/clair:4.2.2 \
           export-updaters /reports/export-updaters
