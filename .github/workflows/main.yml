@@ -39,4 +39,4 @@ jobs:
         uses: actions/upload-artifact@v2.2.4
         with:
           name: updaters
-          path: $GITHUB_WORKSPACE/updaters/export-all-updaters.tar.gz
+          path: ${{env.GITHUB_WORKSPACE}}/updaters/export-all-updaters.tar.gz
