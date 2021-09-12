@@ -13,7 +13,7 @@ jobs:
       - name: Export updaters for default sets
         run: |
           env
-          docker container run \
+          sudo docker container run \
           --entrypoint clairctl \
           --name clair \
           --rm \
