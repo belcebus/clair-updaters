@@ -1,0 +1,12 @@
+log_level: info
+updaters:
+  sets:
+    - alpine
+#    - aws
+#    - debian
+#    - oracle
+#    - photon
+#    - pyupio
+#    - suse
+#    - ubuntu
+#    - rhel
