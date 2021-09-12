@@ -6,7 +6,7 @@ on:
 jobs:
   all:
     runs-on: ubuntu-latest
-
+    permissions: write-all
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.4
@@ -16,19 +16,17 @@ jobs:
           --entrypoint clairctl \
           --name clair \
           --rm \
-          --volume ${GITHUB_WORKSPACE}/config/config_v4.2.2.yaml:/config/config.yaml:ro \
-          --volume ${GITHUB_WORKSPACE}:/reports:rw \
+          --volume ${{env.RUNNER_TEMP}}/config/config_v4.2.2.yaml:/config/config.yaml:ro \
+          --volume ${{env.RUNNER_TEMP}}:/reports:rw \
           --workdir /run \
           quay.io/projectquay/clair:4.2.2 \
           export-updaters /reports/export-all-updaters
       - name: Show updaters file
-        run: head ${GITHUB_WORKSPACE}/reports/export-all-updaters
+        run: head ${{env.RUNNER_TEMP}}/export-all-updaters
       - name: Compress updaters file
-        run: tar cfz ${GITHUB_WORKSPACE}/reports/export-all-updaters.tar.gz export-updaters
+        run: tar cfz ${{env.RUNNER_TEMP}}/export-all-updaters.tar.gz export-updaters
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
-          # Artifact name
           name: updaters
-          # A file, directory or wildcard pattern that describes what to upload
-          path: ${PWD}/reports/export-all-updaters.tar.gz
+          path: ${{env.RUNNER_TEMP}}/export-all-updaters.tar.gz
