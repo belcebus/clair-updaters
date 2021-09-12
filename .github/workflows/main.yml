@@ -5,7 +5,7 @@ on:
     branch: [main]
 
 jobs:
-  all:
+  export-updaters:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -16,8 +16,6 @@ jobs:
           sudo chown nobody updaters
           docker container run \
             --entrypoint clairctl \
-            --name clair \
-            --network host \
             --rm \
             --volume $GITHUB_WORKSPACE/config/config_v4.2.2.yaml:/config/config.yaml:ro \
             --volume $GITHUB_WORKSPACE/updaters/:/reports/:rw \
