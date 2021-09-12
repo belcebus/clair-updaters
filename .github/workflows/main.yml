@@ -16,14 +16,15 @@ jobs:
           --entrypoint clairctl \
           --name clair \
           --rm \
-          --volume ${PWD}/config/config_v4.2.2.yaml:/config/config.yaml:ro \
-          --volume ${PWD}/reports:/reports:rw \
+          --volume ${GITHUB_WORKSPACE}/config/config_v4.2.2.yaml:/config/config.yaml:ro \
+          --volume ${GITHUB_WORKSPACE}/reports:/reports:rw \
           --workdir /run \
           quay.io/projectquay/clair:4.2.2 \
           export-updaters /reports/export-all-updaters
-          head ${PWD}/reports/export-all-updaters
-          tar cfz ${PWD}/reports/export-all-updaters.tar.gz export-updaters
-          
+      - name: Show updaters file
+        run: head ${GITHUB_WORKSPACE}/reports/export-all-updaters
+      - name: Compress updaters file
+        run: tar cfz ${GITHUB_WORKSPACE}/reports/export-all-updaters.tar.gz export-updaters
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
