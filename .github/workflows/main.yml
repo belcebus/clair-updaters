@@ -19,8 +19,8 @@ jobs:
             --name clair \
             --network host \
             --rm \
-            --volume config/config_v4.2.2.yaml:/config/config.yaml:ro \
-            --volume /updaters/:/reports/:rw \
+            --volume $GITHUB_WORKSPACE/config/config_v4.2.2.yaml:/config/config.yaml:ro \
+            --volume $GITHUB_WORKSPACE/updaters/:/reports/:rw \
           quay.io/projectquay/clair:4.2.2 \
           export-updaters /reports/export-all-updaters
 
