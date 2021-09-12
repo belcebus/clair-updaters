@@ -12,31 +12,30 @@ jobs:
         uses: actions/checkout@v2.3.4
       - name: Export updaters for default sets
         run: |
-          mkdir $GITHUB_WORKSPACE/updaters
-          sudo chown nobody $GITHUB_WORKSPACE/updaters
+          mkdir updaters
+          sudo chown nobody updaters
           sudo docker container run \
             --entrypoint clairctl \
             --name clair \
             --network host \
             --rm \
-            --volume $GITHUB_WORKSPACE/config/config_v4.2.2.yaml:/config/config.yaml:ro \
-            --volume $GITHUB_WORKSPACE/updaters/:/reports/:rw \
+            --volume config/config_v4.2.2.yaml:/config/config.yaml:ro \
+            --volume /updaters/:/reports/:rw \
           quay.io/projectquay/clair:4.2.2 \
           export-updaters /reports/export-all-updaters
-          ls -la $GITHUB_WORKSPACE
-          ls -la $GITHUB_WORKSPACE/updaters
+
       - name: Show updaters file
-        run: head $GITHUB_WORKSPACE/updaters/export-all-updaters
-      - name: Compress updaters file
-        run: |
-          ls -la $GITHUB_WORKSPACE
-          ls -la $GITHUB_WORKSPACE/updaters
-          sudo chown -R runner $GITHUB_WORKSPACE/updaters
-          tar cfz $GITHUB_WORKSPACE/updaters/export-all-updaters.tar.gz $GITHUB_WORKSPACE/updaters/export-all-updaters
-          ls -la $GITHUB_WORKSPACE
-          ls -la $GITHUB_WORKSPACE/updaters
+        run: head updaters/export-all-updaters
+#      - name: Compress updaters file
+#        run: |
+#          ls -la $GITHUB_WORKSPACE
+#          ls -la updaters
+#          sudo chown -R runner updaters
+#          tar cfz updaters/export-all-updaters.tar.gz updaters/export-all-updaters
+#          ls -la $GITHUB_WORKSPACE
+#          ls -la updaters
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
           name: updaters
-          path: updaters/export-all-updaters.tar.gz
+          path: updaters/export-all-updaters
